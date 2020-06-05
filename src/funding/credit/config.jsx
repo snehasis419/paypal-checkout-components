@@ -1,7 +1,7 @@
 /* @flow */
 /** @jsx node */
 
-import { COUNTRY, FUNDING } from '@paypal/sdk-constants/src';
+import { COUNTRY, FUNDING, FUNDING_BRAND_LABEL } from '@paypal/sdk-constants/src';
 import { node, Fragment } from 'jsx-pragmatic/src';
 import { CreditLogo, PPLogo, PayPalLogo, LOGO_COLOR } from '@paypal/sdk-logos/src';
 
@@ -9,6 +9,9 @@ import { BUTTON_COLOR, BUTTON_LAYOUT, DEFAULT } from '../../constants';
 import { DEFAULT_FUNDING_CONFIG, type FundingSourceConfig } from '../common';
 import { Space } from '../../ui/text';
 import { WalletLabel } from '../paypal/template';
+import { capitalize } from '../../lib';
+
+const capitalizedCreditName = capitalize(FUNDING.CREDIT) || '';
 
 export function getCreditConfig() : FundingSourceConfig {
     return {
@@ -53,6 +56,6 @@ export function getCreditConfig() : FundingSourceConfig {
             [ BUTTON_COLOR.WHITE ]: LOGO_COLOR.BLUE
         },
         
-        labelText: `${ FUNDING.PAYPAL } ${ FUNDING.CREDIT }`
+        labelText: `${ FUNDING_BRAND_LABEL.PAYPAL } ${ capitalizedCreditName }`
     };
 }
