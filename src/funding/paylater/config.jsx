@@ -1,16 +1,18 @@
 /* @flow */
 /** @jsx node */
 
-import { COUNTRY, FUNDING_BRAND_LABEL } from '@paypal/sdk-constants/src';
-import { node, Fragment } from 'jsx-pragmatic/src';
-import { CreditLogo, PPLogo, PayPalLogo, LOGO_COLOR } from '@paypal/sdk-logos/src';
+import { FUNDING } from '@paypal/sdk-constants/src';
+import { node, Style } from 'jsx-pragmatic/src';
+import { PPLogo, LOGO_COLOR } from '@paypal/sdk-logos/src';
 
 import { BUTTON_COLOR, BUTTON_LAYOUT, DEFAULT } from '../../constants';
 import { DEFAULT_FUNDING_CONFIG, type FundingSourceConfig } from '../common';
-import { Space } from '../../ui/text';
+import { Text, Space } from '../../ui/text';
 import { WalletLabel } from '../paypal/template';
 
-export function getCreditConfig() : FundingSourceConfig {
+import css from './style.scoped.scss';
+
+export function getPaylaterConfig() : FundingSourceConfig {
     return {
         ...DEFAULT_FUNDING_CONFIG,
 
@@ -19,19 +21,15 @@ export function getCreditConfig() : FundingSourceConfig {
             BUTTON_LAYOUT.VERTICAL
         ],
 
-        Logo: ({ locale, logoColor }) => {
-            if (locale.country === COUNTRY.DE) {
-                return <CreditLogo logoColor={ logoColor } locale={ locale } />;
-            }
-    
+        Logo: ({ logoColor, nonce }) => {
             return (
-                <Fragment>
+                <Style css={ css } nonce={ nonce }>
                     <PPLogo logoColor={ logoColor } />
                     <Space />
-                    <PayPalLogo optional logoColor={ logoColor } />
-                    <Space />
-                    <CreditLogo logoColor={ logoColor } locale={ locale } />
-                </Fragment>
+                    <Text className="message-small" optional>PayPal </Text>
+                    <Text className="message-small">Flex</Text>
+                    <Text className="message-large">Pay Later with Flex</Text>
+                </Style>
             );
         },
 
@@ -53,6 +51,6 @@ export function getCreditConfig() : FundingSourceConfig {
             [ BUTTON_COLOR.WHITE ]: LOGO_COLOR.BLUE
         },
         
-        labelText: FUNDING_BRAND_LABEL.CREDIT
+        labelText: `${ FUNDING.PAYPAL } ${ FUNDING.PAYLATER }`
     };
 }
